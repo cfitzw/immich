@@ -345,7 +345,7 @@
       </Portal>
     {/if}
 
-    {#if asset.exifInfo?.fileSizeInByte}
+    {#if true}
       <div class="flex gap-4 py-4">
         <div><Icon path={mdiImageOutline} size="24" /></div>
 
@@ -362,18 +362,20 @@
               />
             {/if}
           </p>
-          <div class="flex gap-2 text-sm">
-            {#if asset.exifInfo.exifImageHeight && asset.exifInfo.exifImageWidth}
-              {#if getMegapixel(asset.exifInfo.exifImageHeight, asset.exifInfo.exifImageWidth)}
-                <p>
-                  {getMegapixel(asset.exifInfo.exifImageHeight, asset.exifInfo.exifImageWidth)} MP
-                </p>
+          {#if asset.exifInfo?.fileSizeInByte && asset.exifInfo?.exifImageHeight && asset.exifInfo?.exifImageWidth}
+            <div class="flex gap-2 text-sm">
+              {#if asset.exifInfo.exifImageHeight && asset.exifInfo.exifImageWidth}
+                {#if getMegapixel(asset.exifInfo.exifImageHeight, asset.exifInfo.exifImageWidth)}
+                  <p>
+                    {getMegapixel(asset.exifInfo.exifImageHeight, asset.exifInfo.exifImageWidth)} MP
+                  </p>
+                {/if}
+                {@const { width, height } = getDimensions(asset.exifInfo)}
+                <p>{width} x {height}</p>
               {/if}
-              {@const { width, height } = getDimensions(asset.exifInfo)}
-              <p>{width} x {height}</p>
-            {/if}
-            <p>{getByteUnitString(asset.exifInfo.fileSizeInByte, $locale)}</p>
-          </div>
+              <p>{getByteUnitString(asset.exifInfo.fileSizeInByte, $locale)}</p>
+            </div>
+          {/if}
           {#if showAssetPath}
             <p class="text-xs opacity-50 break-all" transition:slide={{ duration: 250 }}>
               {asset.originalPath}
